@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>It's Wangui</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Playfair Display', 'Georgia', serif;
+      background: #0A0A0A;
+      color: #F0F0F0;
+      overflow-x: hidden;
+      line-height: 1.6;
+      cursor: default;
+    }
+    
+    ::selection {
+      background: rgba(200, 0, 0, 0.5);
+      color: #fff;
+    }
+    
+    .container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      position: relative;
+    }
+    
+    .section {
+      padding: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Top section */
+    .section-1 {
+      background: linear-gradient(180deg, #000000 0%, #1A0000 100%);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 5rem 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Middle section */
+    .section-2 {
+      background: linear-gradient(180deg, #1A0000 0%, #2D0000 100%);
+      flex: 1;
+      padding: 3rem 2rem;
+    }
+    
+    /* Bottom section */
+    .section-3 {
+      background: linear-gradient(180deg, #2D0000 0%, #000000 100%);
+      flex: 1;
+      padding: 3rem 2rem 5rem 2rem;
+    }
+    
+    /* Animated blood drop effect */
+    .blood-drop {
+      position: absolute;
+      top: -50px;
+      background: linear-gradient(to bottom, rgba(160, 0, 0, 0), rgba(160, 0, 0, 0.3));
+      width: 2px;
+      height: 50px;
+      opacity: 0;
+      border-radius: 50%;
+      z-index: 0;
+      animation: drip 15s infinite;
+    }
+    
+    @keyframes drip {
+      0% {
+        top: -50px;
+        opacity: 0;
+      }
+      50% {
+        opacity: 0.7;
+      }
+      100% {
+        top: 100vh;
+        opacity: 0;
+      }
+    }
+    
+    /* Create multiple blood drops with different positions and delays */
+    .blood-drop:nth-child(1) { left: 10%; animation-delay: 0s; }
+    .blood-drop:nth-child(2) { left: 20%; animation-delay: 5s; }
+    .blood-drop:nth-child(3) { left: 35%; animation-delay: 7s; }
+    .blood-drop:nth-child(4) { left: 50%; animation-delay: 9s; }
+    .blood-drop:nth-child(5) { left: 65%; animation-delay: 3s; }
+    .blood-drop:nth-child(6) { left: 80%; animation-delay: 8s; }
+    .blood-drop:nth-child(7) { left: 90%; animation-delay: 4s; }
+    
+    /* Animated smoke effect */
+    .smoke {
+      position: absolute;
+      bottom: -150px;
+      left: 0;
+      width: 100%;
+      height: 150px;
+      background: radial-gradient(ellipse at center, rgba(20, 20, 20, 0.7) 0%, rgba(20, 20, 20, 0) 70%);
+      animation: rise 8s infinite;
+      opacity: 0.2;
+    }
+    
+    @keyframes rise {
+      0% {
+        transform: translateY(0);
+        opacity: 0.2;
+      }
+      100% {
+        transform: translateY(-100px);
+        opacity: 0;
+      }
+    }
+    
+    header {
+      text-align: center;
+      font-size: 2.8rem;
+      letter-spacing: 8px;
+      margin-bottom: 0.5rem;
+      font-weight: 400;
+      color: #FFFFFF;
+      text-shadow: 0 0 10px rgba(255, 0, 0, 0.5), 0 0 20px rgba(255, 0, 0, 0.3);
+      animation: flicker 5s infinite alternate;
+      position: relative;
+    }
+    
+    @keyframes flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
+        text-shadow: 0 0 10px rgba(255, 0, 0, 0.5), 0 0 20px rgba(255, 0, 0, 0.3);
+      }
+      20%, 24%, 55% {
+        opacity: 0.7;
+        text-shadow: none;
+      }
+    }
+    
+    .tagline {
+      font-style: italic;
+      color: #CCCCCC;
+      margin-bottom: 3rem;
+      letter-spacing: 2px;
+      font-size: 1.1rem;
+      position: relative;
+    }
+    
+    .tagline::after {
+      content: '';
+      position: absolute;
+      width: 50px;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(255,0,0,0), rgba(255,0,0,0.8), rgba(255,0,0,0));
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    .posts {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 0;
+      border-left: 1px solid rgba(255, 0, 0, 0.3);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .posts::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 2px;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(255, 0, 0, 0), rgba(255, 0, 0, 0.8), rgba(255, 0, 0, 0));
+      animation: pulseBorder 4s infinite;
+    }
+    
+    @keyframes pulseBorder {
+      0%, 100% {
+        opacity: 0.3;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+    
+    .posts-heading {
+      color: #FF3A3A;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(255, 0, 0, 0.2);
+      padding-bottom: 0.5rem;
+      letter-spacing: 2px;
+    }
+    
+    .post-item {
+      margin-bottom: 1.5rem;
+      transition: all 0.4s;
+      padding-left: 10px;
+      border-left: 1px solid transparent;
+    }
+    
+    .post-item:hover {
+      transform: translateX(10px);
+      border-left-color: rgba(255, 0, 0, 0.5);
+    }
+    
+    .post-title {
+      margin: 0.5rem 0;
+      font-size: 1.4rem;
+      color: #FF6666;
+      text-decoration: none;
+      display: block;
+      transition: 0.3s;
+      letter-spacing: 1px;
+    }
+    
+    .post-title:hover {
+      color: #FF0000;
+      text-shadow: 0 0 8px rgba(255, 0, 0, 0.3);
+      text-decoration: none;
+    }
+    
+    .post-excerpt {
+      color: #CCCCCC;
+      font-size: 0.95rem;
+      margin-top: 0.5rem;
+    }
+    
+    .post-meta {
+      font-size: 0.85rem;
+      color: #999999;
+      margin-top: 0.5rem;
+    }
+    
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+      line-height: 1.8;
+      font-size: 1.1rem;
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 0;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    }
+    
+    .about-me {
+      display: flex;
+      max-width: 800px;
+      margin: 0 auto;
+      align-items: center;
+      gap: 2rem;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 2rem;
+      border-radius: 0;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .about-me::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle at bottom right, rgba(255, 0, 0, 0.15), transparent 70%);
+    }
+    
+    .about-text {
+      flex: 2;
+    }
+    
+    .about-title {
+      color: #FF3A3A;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      letter-spacing: 2px;
+    }
+    
+    .avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 0;
+      background: #000;
+      border: 1px solid rgba(255, 0, 0, 0.3);
+      flex: 0 0 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      color: #FF0000;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .avatar::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      background: linear-gradient(45deg, transparent, rgba(255, 0, 0, 0.1), transparent);
+      animation: shimmer 3s infinite;
+    }
+    
+    @keyframes shimmer {
+      0% {
+        transform: translateX(-100%) translateY(-100%);
+      }
+      100% {
+        transform: translateX(100%) translateY(100%);
+      }
+    }
+    
+    .highlight {
+      color: #FF5555;
+    }
+    
+    .quote {
+      font-style: italic;
+      border-left: 2px solid #800000;
+      padding-left: 1rem;
+      margin: 2rem 0;
+      color: #DDDDDD;
+    }
+    
+    .nav {
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+      gap: 2rem;
+    }
+    
+    .nav-link {
+      color: #BBBBBB;
+      text-decoration: none;
+      transition: all 0.3s;
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      position: relative;
+      padding: 5px 0;
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 1px;
+      bottom: 0;
+      left: 0;
+      background-color: #FF0000;
+      transition: width 0.3s;
+    }
+    
+    .nav-link:hover {
+      color: #FFFFFF;
+      text-decoration: none;
+    }
+    
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    
+    /* The red eye cursor effect */
+    .cursor-eye {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: radial-gradient(circle at center, rgba(255, 0, 0, 0.7) 0%, rgba(255, 0, 0, 0) 70%);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+    
+    /* Secret messages that appear on hover */
+    .secret {
+      position: relative;
+    }
+    
+    .secret::before {
+      content: attr(data-secret);
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: #FF0000;
+      padding: 5px 10px;
+      border-radius: 3px;
+      font-size: 0.8rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    
+    .secret:hover::before {
+      opacity: 1;
+    }
+  </style>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Red eye cursor that follows mouse -->
+  <div class="cursor-eye"></div>
+  
+  <div class="container">
+    <!-- Blood drop animations -->
+    <div class="blood-drop"></div>
+    <div class="blood-drop"></div>
+    <div class="blood-drop"></div>
+    <div class="blood-drop"></div>
+    <div class="blood-drop"></div>
+    <div class="blood-drop"></div>
+    <div class="blood-drop"></div>
+    
+    <!-- Top section -->
+    <div class="section section-1">
+      <div class="smoke"></div>
+      <header>IT'S WANGUI</header>
+      <p class="tagline">calculated thoughts from the shadows</p>
+      <nav class="nav">
+        <a class="nav-link" href="#posts">WRITINGS</a>
+        <a class="nav-link" href="#about">ABOUT</a>
+        <a class="nav-link secret" data-secret="enter at your own risk" href="#contact">CONTACT</a>
+      </nav>
+    </div>
+    
+    <!-- Middle section -->
+    <div class="section section-2" id="posts">
+      <div class="posts">
+        <h2 class="posts-heading">DANGEROUS IDEAS</h2>
+        
+        <div class="post-item">
+          <a class="post-title" href="everFleetingLife.html">The Trial of Freedom</a>
+          <p class="post-excerpt">The illusion of choice in a world of invisible chains. What we perceive as freedom may be our most elegant prison.</p>
+          <div class="post-meta">April 24, 2025 · 7 min read</div>
+        </div>
+        
+        <div class="post-item">
+          <a class="post-title" href="#">The Art of Calculated Risk</a>
+          <p class="post-excerpt">How intelligent women have always understood that danger is simply opportunity viewed through the lens of fear.</p>
+          <div class="post-meta">April 16, 2025 · 6 min read</div>
+        </div>
+        
+        <div class="post-item secret" data-secret="classified thoughts">
+          <a class="post-title" href="#">Beautiful Destruction</a>
+          <p class="post-excerpt">On the intimate relationship between creation and annihilation, and why we're drawn to both.</p>
+          <div class="post-meta">April 5, 2025 · 8 min read</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Bottom section -->
+    <div class="section section-3" id="about">
+      <div class="about-me">
+        <div class="avatar">W</div>
+        <div class="about-text">
+          <h2 class="about-title">BEHIND THE MASK</h2>
+          <p>I am <span class="highlight">Wangui</span>, strategist and observer of human nature. My intellectual pursuits focus on the razor's edge between knowledge and power, order and chaos.</p>
+          <p class="quote">The most dangerous woman is the one who has nothing to lose but her chains.</p>
+          <p>Operating from the shadows between disciplines, I examine the architecture of influence and the psychology of control. You'll find my fingerprints in unexpected places—sometimes where you've already been looking.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Red eye cursor effect
+    document.addEventListener('DOMContentLoaded', function() {
+      const cursor = document.querySelector('.cursor-eye');
+      
+      // Show cursor after a delay
+      setTimeout(() => {
+        cursor.style.opacity = '1';
+      }, 3000);
+      
+      // Move cursor with mouse
+      document.addEventListener('mousemove', function(e) {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+      });
+      
+      // Pulse effect on click
+      document.addEventListener('click', function() {
+        cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+        cursor.style.opacity = '0.9';
+        
+        setTimeout(() => {
+          cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+          cursor.style.opacity = '0.7';
+        }, 300);
+      });
+    });
+  </script>
+</body>
+</html>
