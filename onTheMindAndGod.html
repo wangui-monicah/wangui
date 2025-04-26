@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reflections on Augustine</title>
+  <!-- Import fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poiret+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Core styling */
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      font-family: 'Cormorant Garamond', serif;
+      background: #000000;
+      color: rgba(255, 255, 255, 0.8);
+      cursor: default;
+    }
+    
+    /* Main container with vertical gradient - deep purple to navy to dark indigo */
+    .container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background: linear-gradient(to bottom, #1a0033, #0c0032, #190a47, #2c213b, #070618);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Light rays */
+    .light-ray {
+      position: absolute;
+      width: 1px;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+      top: 0;
+      bottom: 0;
+      opacity: 0;
+      z-index: 0;
+      transform: rotate(45deg);
+      transform-origin: top left;
+      animation: ray-fade 12s infinite;
+    }
+    
+    @keyframes ray-fade {
+      0%, 100% { opacity: 0; }
+      50% { opacity: 0.5; }
+    }
+    
+    .light-ray:nth-child(1) {
+      left: 20%;
+      animation-delay: 0s;
+    }
+    
+    .light-ray:nth-child(2) {
+      left: 40%;
+      animation-delay: 3s;
+    }
+    
+    .light-ray:nth-child(3) {
+      left: 60%;
+      animation-delay: 6s;
+    }
+    
+    .light-ray:nth-child(4) {
+      left: 80%;
+      animation-delay: 9s;
+    }
+    
+    /* Subtle stars */
+    .stars {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+    
+    .star {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+    }
+    
+    /* Random stars using CSS custom properties for positions */
+    .star:nth-child(1) { left: 10%; top: 20%; animation: twinkle 4s infinite; }
+    .star:nth-child(2) { left: 25%; top: 15%; animation: twinkle 6s infinite; animation-delay: 1s; }
+    .star:nth-child(3) { left: 40%; top: 25%; animation: twinkle 5s infinite; animation-delay: 2s; }
+    .star:nth-child(4) { left: 65%; top: 10%; animation: twinkle 7s infinite; animation-delay: 0.5s; }
+    .star:nth-child(5) { left: 80%; top: 30%; animation: twinkle 4s infinite; animation-delay: 1.5s; }
+    .star:nth-child(6) { left: 15%; top: 45%; animation: twinkle 6s infinite; animation-delay: 2.5s; }
+    .star:nth-child(7) { left: 35%; top: 55%; animation: twinkle 5s infinite; animation-delay: 0.2s; }
+    .star:nth-child(8) { left: 55%; top: 40%; animation: twinkle 7s infinite; animation-delay: 1.2s; }
+    .star:nth-child(9) { left: 75%; top: 60%; animation: twinkle 4s infinite; animation-delay: 2.2s; }
+    .star:nth-child(10) { left: 90%; top: 50%; animation: twinkle 6s infinite; animation-delay: 0.7s; }
+    .star:nth-child(11) { left: 5%; top: 70%; animation: twinkle 5s infinite; animation-delay: 1.7s; }
+    .star:nth-child(12) { left: 30%; top: 80%; animation: twinkle 7s infinite; animation-delay: 2.7s; }
+    .star:nth-child(13) { left: 50%; top: 75%; animation: twinkle 4s infinite; animation-delay: 0.3s; }
+    .star:nth-child(14) { left: 70%; top: 85%; animation: twinkle 6s infinite; animation-delay: 1.3s; }
+    .star:nth-child(15) { left: 85%; top: 70%; animation: twinkle 5s infinite; animation-delay: 2.3s; }
+    
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+    
+    /* Header */
+    .back-link {
+      font-family: 'Raleway', sans-serif;
+      color: rgba(255, 255, 255, 0.6);
+      text-decoration: none;
+      letter-spacing: 4px;
+      font-size: 0.8rem;
+      position: fixed;
+      top: 40px;
+      left: 40px;
+      z-index: 100;
+      transition: all 0.5s;
+      padding: 8px 15px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+    
+    .back-link:hover {
+      color: #ffffff;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+      border-color: rgba(255, 255, 255, 0.4);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    }
+    
+    .title {
+      font-family: 'Poiret One', cursive;
+      font-weight: 400;
+      font-size: 2.5rem;
+      color: rgba(255, 255, 255, 0.9);
+      text-align: center;
+      margin: 12vh 0 8vh;
+      letter-spacing: 4px;
+      position: relative;
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+    }
+    
+    .title::after {
+      content: '';
+      position: absolute;
+      width: 1px;
+      height: 30px;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.6), transparent);
+      bottom: -50px;
+      left: 50%;
+    }
+    
+    /* Content */
+    .content {
+      display: flex;
+      flex-direction: column;
+      padding: 0 5vw;
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 10;
+    }
+    
+    /* Stanza sections */
+    .stanza {
+      margin: 5vh 0;
+      position: relative;
+      opacity: 0;
+      animation: fade-in 0.8s forwards;
+      padding: 10px 20px;
+      border-radius: 5px;
+      transition: all 0.5s ease;
+    }
+    
+    .stanza:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+    
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Delayed appearance for each stanza */
+    .stanza:nth-child(1) { animation-delay: 0.5s; }
+    .stanza:nth-child(2) { animation-delay: 1s; }
+    .stanza:nth-child(3) { animation-delay: 1.5s; }
+    .stanza:nth-child(4) { animation-delay: 2s; }
+    .stanza:nth-child(5) { animation-delay: 2.5s; }
+    .stanza:nth-child(6) { animation-delay: 3s; }
+    .stanza:nth-child(7) { animation-delay: 3.5s; }
+    .stanza:nth-child(8) { animation-delay: 4s; }
+    .stanza:nth-child(9) { animation-delay: 4.5s; }
+    
+    /* Text styles */
+    .text-normal {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.8);
+      margin: 0 0 1.2rem 0;
+    }
+    
+    .text-emphasis {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 1.3rem;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.95);
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    
+    .text-divine {
+      font-family: 'Poiret One', cursive;
+      font-size: 1.6rem;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.95);
+      margin: 1.8rem 0;
+      text-align: center;
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+      letter-spacing: 1px;
+    }
+    
+    .text-divine::before, .text-divine::after {
+      content: '';
+      position: absolute;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      width: 50%;
+      left: 25%;
+    }
+    
+    .text-divine::before {
+      top: -10px;
+    }
+    
+    .text-divine::after {
+      bottom: -10px;
+    }
+    
+    .text-citation {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.7);
+      margin: 1rem 0;
+      text-align: center;
+    }
+    
+    .book-title {
+      font-style: italic;
+    }
+    
+    /* Highlight effects */
+    .highlight-gentle {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .highlight-gentle::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, rgba(128, 0, 128, 0.2), transparent);
+    }
+    
+    /* Reading indicator */
+    .reading-line {
+      position: fixed;
+      left: 0;
+      width: 1px;
+      height: 50px;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
+      z-index: 50;
+      pointer-events: none;
+      opacity: 0.3;
+      transition: opacity 0.5s;
+    }
+    
+    /* Floating quote */
+    .floating-quote {
+      position: fixed;
+      font-family: 'Poiret One', cursive;
+      color: rgba(255, 255, 255, 0.05);
+      z-index: 0;
+      font-size: 7rem;
+      pointer-events: none;
+      width: 100%;
+      text-align: center;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  </style>
+</head>
+<body>
+  <!-- Reading line indicator -->
+  <div class="reading-line"></div>
+  
+  <!-- Main container -->
+  <div class="container">
+    <!-- Background elements -->
+    <div class="stars">
+      <div class="star"></div>
+      <div class="star"></div>
+      <div class="star"></div>
+      <div class="star"></div>
+      <div class="star"></div>
+      <div class="star"></div>
+      <div class="star"></div>
+      <div class="star"></div>
+      <div class="star"></div>
+      <div class="star"></div>
+      <div class="star"></div>
+      <div class="star"></div>
+      <div class="star"></div>
+      <div class="star"></div>
+      <div class="star"></div>
+    </div>
+    
+    <div class="light-ray"></div>
+    <div class="light-ray"></div>
+    <div class="light-ray"></div>
+    <div class="light-ray"></div>
+    
+    <div class="floating-quote">"God"</div>
+    
+    <!-- Back link -->
+    <a href="index.html" class="back-link">← RETURN</a>
+    
+    <!-- Title -->
+    <h1 class="title">REFLECTIONS ON AUGUSTINE</h1>
+    
+    <!-- Content -->
+    <div class="content">
+      <div class="stanza">
+        <p class="text-emphasis">I am currently awed by St. Augustine's <span class="book-title">Confessions</span>. What a beautiful book. What a beautiful mind. What it takes, to write down all your shortcomings — what beauty, what dignity, what sanctity.</p>
+      </div>
+      
+      <div class="stanza">
+        <p class="text-normal">His words got me thinking about the mind. How does the mind know itself? How does it understand itself? It is aware of its own existence — and yet, there seems to be a distance, a chasm between the mind and the knowing of the mind.</p>
+      </div>
+      
+      <div class="stanza">
+        <p class="text-divine">Does God have a mind like ours?</p>
+        <p class="text-normal">We know He has thoughts — or does He? But we know He feels. Anger. Joy. Pleasure. As He said during Jesus' baptism: <span class="text-citation">"This is my son, with whom I am well pleased."</span></p>
+      </div>
+      
+      <div class="stanza">
+        <p class="text-normal">The most common way people explore their minds — is by looking within. But even there, the distance remains.</p>
+        <p class="text-normal">I wonder: is this part of what Freud tried to study? The mind — that strange thing which produces thought, and lives, somewhere, behind the brain.</p>
+        <p class="text-normal">But the mind is not essential because it exists. It is essential because of what it produces: thoughts. And thoughts — they shape who we are, even though we barely understand them.</p>
+      </div>
+      
+      <div class="stanza">
+        <p class="text-divine">If we cannot understand ourselves, how can we hope to understand You, O God?</p>
+      </div>
+      
+      <div class="stanza">
+        <p class="text-normal">God became man, so that we might come closer. He knew man so deeply — He <span class="highlight-gentle">became</span> one. Yet man still does not know Him.</p>
+      </div>
+      
+      <div class="stanza">
+        <p class="text-divine">How are we to know You, God? Guide us. Guide us.</p>
+      </div>
+      
+      <div class="stanza">
+        <p class="text-normal">We are to read the Scriptures: Proverbs, Ecclesiastes. We are to seek. We are to knock. We are to call:</p>
+      </div>
+      
+      <div class="stanza">
+        <p class="text-divine">God. God. God.</p>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const readingLine = document.querySelector('.reading-line');
+      const stanzas = document.querySelectorAll('.stanza');
+      const floatingQuote = document.querySelector('.floating-quote');
+      
+      // Move reading line with mouse
+      document.addEventListener('mousemove', function(e) {
+        readingLine.style.top = e.clientY - 25 + 'px';
+        readingLine.style.opacity = '0.3';
+      });
+      
+      // Hide reading line when mouse is inactive
+      let timeout;
+      document.addEventListener('mousemove', function() {
+        clearTimeout(timeout);
+        readingLine.style.opacity = '0.3';
+        
+        timeout = setTimeout(() => {
+          readingLine.style.opacity = '0';
+        }, 3000);
+      });
+      
+      // Scroll reveal animation
+      function checkScroll() {
+        stanzas.forEach((stanza, index) => {
+          const stanzaTop = stanza.getBoundingClientRect().top;
+          const windowHeight = window.innerHeight;
+          
+          if (stanzaTop < windowHeight * 0.8) {
+            stanza.style.opacity = '1';
+            stanza.style.transform = 'translateY(0)';
+            
+            // Change floating quote based on visible stanza
+            if (index === 2) {
+              floatingQuote.textContent = '"Mind"';
+              floatingQuote.style.opacity = '0.05';
+            } else if (index === 4) {
+              floatingQuote.textContent = '"Understand"';
+              floatingQuote.style.opacity = '0.05';
+            } else if (index === 6) {
+              floatingQuote.textContent = '"Guide"';
+              floatingQuote.style.opacity = '0.05';
+            } else if (index === 8) {
+              floatingQuote.textContent = '"God"';
+              floatingQuote.style.opacity = '0.05';
+            }
+          }
+        });
+      }
+      
+      // Initial check
+      checkScroll();
+      
+      // Check on scroll
+      window.addEventListener('scroll', checkScroll);
+    });
+  </script>
+</body>
+</html>
