@@ -4,52 +4,454 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Trial of Freedom</title>
+  <!-- Import Playfair Display as our primary font and La Belle Aurore for accents -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=La+Belle+Aurore&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap" rel="stylesheet">
+  
   <style>
+    /* Core styling */
     body {
       margin: 0;
-      font-family: 'Georgia', serif;
-      background: linear-gradient(to bottom right, #56021F, #7D1C4A);
-      color: #F4CCE9;
-      padding: 40px;
-      line-height: 1.8;
+      background: #000000;
+      color: #f0f0f0;
+      overflow-x: hidden;
+      cursor: default;
     }
-    a {
-      color: #D17D98;
+    
+    /* Main container with vertical gradient */
+    .container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background: linear-gradient(to bottom, #87CEEB, #5F9EA0, #2C3E50, #000000);
+      position: relative;
+    }
+    
+    /* Background elements */
+    .blood-drop {
+      position: fixed;
+      top: -50px;
+      background: linear-gradient(to bottom, rgba(160, 0, 0, 0), rgba(160, 0, 0, 0.2));
+      width: 1px;
+      height: 70px;
+      opacity: 0;
+      border-radius: 50%;
+      z-index: 0;
+      animation: drip 20s infinite;
+    }
+    
+    @keyframes drip {
+      0% {
+        top: -70px;
+        opacity: 0;
+      }
+      50% {
+        opacity: 0.3;
+      }
+      100% {
+        top: 100vh;
+        opacity: 0;
+      }
+    }
+    
+    .blood-drop:nth-child(1) { left: 10%; animation-delay: 0s; }
+    .blood-drop:nth-child(2) { left: 25%; animation-delay: 4s; }
+    .blood-drop:nth-child(3) { left: 45%; animation-delay: 7s; }
+    .blood-drop:nth-child(4) { left: 65%; animation-delay: 2s; }
+    .blood-drop:nth-child(5) { left: 85%; animation-delay: 5s; }
+    
+    /* Header elements */
+    /* Back link styling */
+    .back-link {
+      font-family: 'Raleway', sans-serif;
+      color: #9e9e9e;
       text-decoration: none;
+      letter-spacing: 3px;
+      font-size: 0.8rem;
+      position: fixed;
+      top: 40px;
+      left: 40px;
+      mix-blend-mode: difference;
+      z-index: 100;
+      transition: all 0.5s;
+      padding: 8px 15px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
     }
-    a:hover {
-      text-decoration: underline;
-      color: #F4CCE9;
+    
+    .back-link:hover {
+      color: #ffffff;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+      border-color: rgba(255, 255, 255, 0.4);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    }
+    
+    .title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 2.5rem;
+      color: #ffffff;
+      text-align: center;
+      margin: 15vh 0 10vh;
+      letter-spacing: 4px;
+      position: relative;
+      text-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+    }
+    
+    .title::after {
+      content: '';
+      position: absolute;
+      width: 1px;
+      height: 50px;
+      background: linear-gradient(to bottom, rgba(255, 0, 0, 0.8), transparent);
+      bottom: -60px;
+      left: 50%;
+    }
+    
+    /* Content styling with poetic layouts */
+    .content {
+      display: flex;
+      flex-direction: column;
+      padding: 0 5vw;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .passage {
+      margin: 7vh 0;
+      position: relative;
+      opacity: 0;
+      animation: fade-in 1s forwards;
+    }
+    
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .passage:nth-child(1) { animation-delay: 0.5s; }
+    .passage:nth-child(2) { animation-delay: 1s; }
+    .passage:nth-child(3) { animation-delay: 1.5s; }
+    .passage:nth-child(4) { animation-delay: 2s; }
+    .passage:nth-child(5) { animation-delay: 2.5s; }
+    .passage:nth-child(6) { animation-delay: 3s; }
+    .passage:nth-child(7) { animation-delay: 3.5s; }
+    .passage:nth-child(8) { animation-delay: 4s; }
+    .passage:nth-child(9) { animation-delay: 4.5s; }
+    .passage:nth-child(10) { animation-delay: 5s; }
+    
+    /* Different text styles for visual rhythm */
+    .text-regular {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      font-weight: 400;
+      margin: 0;
+    }
+    
+    .text-italic {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.2rem;
+      line-height: 1.8;
+      margin: 0;
+      color: #dbdbdb;
+    }
+    
+    .text-script {
+      font-family: 'La Belle Aurore', cursive;
+      font-size: 1.7rem;
+      line-height: 1.6;
+      margin: 0;
+      color: #9e9e9e;
+      transform: rotate(-2deg);
+      text-align: right;
+      margin-right: 2vw;
+    }
+    
+    .text-emphasis {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.3rem;
+      line-height: 1.8;
+      letter-spacing: 1px;
+      margin: 0;
+      color: #ffffff;
+    }
+    
+    .text-highlight {
+      color: #ff3a3a;
+      font-weight: 700;
+    }
+    
+    /* Layouts for visual poetry */
+    .layout-center {
+      text-align: center;
+      margin: 7vh auto;
+      max-width: 80%;
+    }
+    
+    .layout-right {
+      text-align: right;
+      margin-left: auto;
+      max-width: 80%;
+    }
+    
+    .layout-left {
+      text-align: left;
+      margin-right: auto;
+      max-width: 80%;
+    }
+    
+    .layout-spaced {
+      letter-spacing: 3px;
+      word-spacing: 5px;
+    }
+    
+    /* Quote styling */
+    .quote {
+      width: 100%;
+      padding: 5vh 0;
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      line-height: 1.8;
+      font-style: italic;
+      position: relative;
+    }
+    
+    .quote::before, .quote::after {
+      content: '';
+      position: absolute;
+      width: 20%;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(255,0,0,0), rgba(255,0,0,0.6), rgba(255,0,0,0));
+    }
+    
+    .quote::before {
+      top: 0;
+      left: 40%;
+    }
+    
+    .quote::after {
+      bottom: 0;
+      left: 40%;
+    }
+    
+    /* Final statement styling */
+    .final-statement {
+      margin: 10vh auto 20vh;
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: 2px;
+      line-height: 1.8;
+      background: -webkit-linear-gradient(#ffffff, #ff3a3a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+    }
+    
+    /* Animated elements */
+    .appear-text {
+      position: fixed;
+      font-family: 'La Belle Aurore', cursive;
+      color: rgba(135, 206, 235, 0.15);
+      z-index: -1;
+      font-size: 3rem;
+      pointer-events: none;
+    }
+    
+    .appear-text:nth-child(1) {
+      top: 20vh;
+      left: 2vw;
+      animation: fade-in-out 15s infinite;
+      animation-delay: 2s;
+    }
+    
+    .appear-text:nth-child(2) {
+      bottom: 15vh;
+      right: 5vw;
+      animation: fade-in-out 20s infinite;
+      animation-delay: 5s;
+    }
+    
+    @keyframes fade-in-out {
+      0%, 100% { opacity: 0; }
+      50% { opacity: 0.15; }
+    }
+    
+    /* Red eye cursor */
+    .cursor-eye {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: radial-gradient(circle at center, rgba(255, 0, 0, 0.5) 0%, rgba(255, 0, 0, 0) 70%);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+    
+    /* Reading indicator */
+    .reading-line {
+      position: fixed;
+      left: 0;
+      width: 2px;
+      height: 70px;
+      background: linear-gradient(to bottom, rgba(255, 0, 0, 0), rgba(255, 0, 0, 0.6), rgba(255, 0, 0, 0));
+      z-index: 50;
+      pointer-events: none;
+      opacity: 0.3;
+      transition: opacity 0.5s;
     }
   </style>
 </head>
 <body>
-
-<a href="index.html">&larr; Back to Home</a>
-
-<h1>The Trial of Freedom</h1>
-
-<p>One of the harshest truths is how fleeting the present is: how permanent time remains, even as it slips through our fingers. We live whole lives, and yet the mind can only bold fragments. You look back, and realize you spent years doing everything, and remember almost nothing.</p>
-
-<p>Lately, I've been finding my way back to God.</p>
-
-<p>He calls me to a higher standard: to a life of dignity, to a heart that refuses to wound others. As a child, I thought I understood this. I lived innocently, untouched by temptation. I used to wonder: why did the Bible speak so insistently about purity, when it seemed so easy?</p>
-
-<p>Now, I understand.</p>
-
-<p>That message was never meant for the innocent: it was meant for those who had tasted the fullness of freedom. For the orphaned, for the grown, for those who step into adulthood and find themselves drunk on liberty.</p>
-
-<p>As a child, you dream of freedom. As an adult, you drown in it. No one stands between you and the abyss. No one pulls you back from your own undoing.</p>
-
-<p>And so Christ's message is hard: terribly hard.</p>
-
-<p>In a world without chains, how does a soul stay pure? In a life where every indulgence is permitted, who guards the gates to the heart?</p>
-
-<p><strong>\"Blessed are the pure in heart, for they shall see God.\"</strong></p>
-
-<p>Oh, how difficult it is to keep the heart pure. Oh, how arduous it is to cleanse a heart that’s already stained. The soul, the mind, the body, the spirit: how fragile they become when no one demands their keeping but yourself.</p>
-
-<p>And that is the trial of freedom: <strong>WHEN SIN IS AN OPTION: AND SO IS HOLINESS.</strong></p>
-
+  <!-- Red eye cursor -->
+  <div class="cursor-eye"></div>
+  
+  <!-- Reading line indicator -->
+  <div class="reading-line"></div>
+  
+  <!-- Hidden text that occasionally appears -->
+  <div class="appear-text">purity</div>
+  <div class="appear-text">freedom</div>
+  
+  <!-- Main container -->
+  <div class="container">
+    <!-- Blood drop animations -->
+    <div class="blood-drop"></div>
+    <div class="blood-drop"></div>
+    <div class="blood-drop"></div>
+    <div class="blood-drop"></div>
+    <div class="blood-drop"></div>
+    
+    <!-- Back link -->
+    <a href="index.html" class="back-link">← RETURN</a>
+    
+    <!-- Title -->
+    <h1 class="title">THE TRIAL OF FREEDOM</h1>
+    
+    <!-- Content with poetic layout -->
+    <div class="content">
+      <div class="passage layout-left">
+        <p class="text-regular">One of the harshest truths is how fleeting the present is: how permanent time remains, even as it slips through our fingers. We live whole lives, and yet the mind can only bold fragments. You look back, and realize you spent years doing everything, and remember almost nothing.</p>
+      </div>
+      
+      <div class="passage layout-right">
+        <p class="text-script">Lately, I've been finding my way back to God.</p>
+      </div>
+      
+      <div class="passage layout-left">
+        <p class="text-regular">He calls me to a higher standard: to a life of dignity, to a heart that refuses to wound others. As a child, I thought I understood this. I lived innocently, untouched by temptation. I used to wonder: why did the Bible speak so insistently about purity, when it seemed so easy?</p>
+      </div>
+      
+      <div class="passage layout-center">
+        <p class="text-emphasis">Now, I understand.</p>
+      </div>
+      
+      <div class="passage layout-left">
+        <p class="text-italic">That message was never meant for the innocent: it was meant for those who had tasted the fullness of freedom. For the orphaned, for the grown, for those who step into adulthood and find themselves drunk on liberty.</p>
+      </div>
+      
+      <div class="passage layout-left">
+        <p class="text-regular">As a child, you dream of freedom. As an adult, you drown in it. No one stands between you and the abyss. No one pulls you back from your own undoing.</p>
+      </div>
+      
+      <div class="passage layout-center">
+        <p class="text-emphasis">And so Christ's message is hard: <span class="text-highlight">terribly hard</span>.</p>
+      </div>
+      
+      <div class="passage layout-spaced">
+        <p class="text-regular">In a world without chains, how does a soul stay pure? In a life where every indulgence is permitted, who guards the gates to the heart?</p>
+      </div>
+      
+      <div class="passage">
+        <div class="quote">
+          <p>"Blessed are the pure in heart, for they shall see God."</p>
+        </div>
+      </div>
+      
+      <div class="passage layout-left">
+        <p class="text-italic">Oh, how difficult it is to keep the heart pure. Oh, how arduous it is to cleanse a heart that's already stained. The soul, the mind, the body, the spirit: how fragile they become when no one demands their keeping but yourself.</p>
+      </div>
+      
+      <div class="final-statement">
+        <p>AND THAT IS THE TRIAL OF FREEDOM:<br>WHEN SIN IS AN OPTION: AND SO IS HOLINESS.</p>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Red eye cursor effect
+    document.addEventListener('DOMContentLoaded', function() {
+      const cursor = document.querySelector('.cursor-eye');
+      const readingLine = document.querySelector('.reading-line');
+      
+      // Show cursor after a delay
+      setTimeout(() => {
+        cursor.style.opacity = '0.7';
+      }, 2000);
+      
+      // Move cursor with mouse
+      document.addEventListener('mousemove', function(e) {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+        
+        // Update reading line position
+        readingLine.style.top = e.clientY - 35 + 'px';
+        readingLine.style.opacity = '0.3';
+      });
+      
+      // Hide reading line when mouse is inactive
+      let timeout;
+      document.addEventListener('mousemove', function() {
+        clearTimeout(timeout);
+        readingLine.style.opacity = '0.3';
+        
+        timeout = setTimeout(() => {
+          readingLine.style.opacity = '0';
+        }, 3000);
+      });
+      
+      // Pulse effect on click
+      document.addEventListener('click', function() {
+        cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+        cursor.style.opacity = '0.9';
+        
+        setTimeout(() => {
+          cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+          cursor.style.opacity = '0.7';
+        }, 300);
+      });
+      
+      // Scroll reveal animation
+      const passages = document.querySelectorAll('.passage');
+      
+      function checkScroll() {
+        passages.forEach(passage => {
+          const passageTop = passage.getBoundingClientRect().top;
+          const windowHeight = window.innerHeight;
+          
+          if (passageTop < windowHeight * 0.8) {
+            passage.style.opacity = '1';
+            passage.style.transform = 'translateY(0)';
+          }
+        });
+      }
+      
+      // Initial check
+      checkScroll();
+      
+      // Check on scroll
+      window.addEventListener('scroll', checkScroll);
+    });
+  </script>
 </body>
 </html>
