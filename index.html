@@ -5,58 +5,138 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>It's Wangui</title>
   <style>
-    .body {
-    margin: 0;
-    font-family: 'Georgia', serif;
-    background: linear-gradient(135deg, #56021F 0%, #7D1C4A 100%);
-    color: #F4CCE9;
-    overflow-x: hidden;
-  }
-
-    .header {
-      text-align: center;
-      padding: 50px;
-      font-size: 3em;
+    body {
+      margin: 0;
+      font-family: 'Playfair Display', 'Georgia', serif;
+      background: #0A0A0A;
+      color: #F0F0F0;
+      overflow-x: hidden;
+      line-height: 1.6;
+      cursor: default;
+    }
+    
+    ::selection {
+      background: rgba(200, 0, 0, 0.5);
+      color: #fff;
+    }
+    
+    .container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
       position: relative;
     }
-    .posts {
-      max-width: 800px;
-      margin: 50px auto;
-      padding: 0 20px;
+    
+    .section {
+      padding: 2rem;
+      position: relative;
+      z-index: 1;
     }
-    .post-title {
-      margin: 20px 0;
-      font-size: 1.8em;
-      color: #D17D98;
-      text-decoration: none;
-      display: block;
-      transition: 0.3s;
+    
+    /* Top section */
+    .section-1 {
+      background: linear-gradient(180deg, #000000 0%, #1A0000 100%);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 5rem 1rem;
+      position: relative;
+      overflow: hidden;
     }
-    .post-title:hover {
-      color: #F4CCE9;
-      text-decoration: underline;
+    
+    /* Middle section */
+    .section-2 {
+      background: linear-gradient(180deg, #1A0000 0%, #2D0000 100%);
+      flex: 1;
+      padding: 3rem 2rem;
     }
-    .content {
-      max-width: 800px;
-      margin: 30px auto;
-      padding: 20px;
-      line-height: 1.8;
-      font-size: 1.1em;
-      background: rgba(244, 204, 233, 0.08);
-      border-radius: 10px;
+    
+    /* Bottom section */
+    .section-3 {
+      background: linear-gradient(180deg, #2D0000 0%, #000000 100%);
+      flex: 1;
+      padding: 3rem 2rem 5rem 2rem;
     }
-  </style>
-</head>
-<body>
-
-<header>
-  It's Wangui
-</header>
-
-<div class="posts">
-  <a class="post-title" href="everFleetingLife.html">The Trial of Freedom</a>
-</div>
-
+    
+    /* Animated blood drop effect */
+    .blood-drop {
+      position: absolute;
+      top: -50px;
+      background: linear-gradient(to bottom, rgba(160, 0, 0, 0), rgba(160, 0, 0, 0.3));
+      width: 2px;
+      height: 50px;
+      opacity: 0;
+      border-radius: 50%;
+      z-index: 0;
+      animation: drip 15s infinite;
+    }
+    
+    @keyframes drip {
+      0% {
+        top: -50px;
+        opacity: 0;
+      }
+      50% {
+        opacity: 0.7;
+      }
+      100% {
+        top: 100vh;
+        opacity: 0;
+      }
+    }
+    
+    /* Create multiple blood drops with different positions and delays */
+    .blood-drop:nth-child(1) { left: 10%; animation-delay: 0s; }
+    .blood-drop:nth-child(2) { left: 20%; animation-delay: 5s; }
+    .blood-drop:nth-child(3) { left: 35%; animation-delay: 7s; }
+    .blood-drop:nth-child(4) { left: 50%; animation-delay: 9s; }
+  <div class="container">
+    <!-- Top section -->
+    <div class="section section-1">
+      <header>It's Wangui</header>
+      <p class="tagline">thoughts, musings & occasional brilliance</p>
+      <nav class="nav">
+        <a class="nav-link" href="#posts">WRITINGS</a>
+        <a class="nav-link" href="#about">ABOUT</a>
+        <a class="nav-link" href="#contact">CONTACT</a>
+      </nav>
+    </div>
+    
+    <!-- Middle section -->
+    <div class="section section-2" id="posts">
+      <div class="posts">
+        <h2 class="posts-heading">Recent Thoughts</h2>
+        
+        <div class="post-item">
+          <a class="post-title" href="everFleetingLife.html">The Trial of Freedom</a>
+          <p class="post-excerpt">Exploring the paradoxical nature of choice in modern society, where apparent freedoms often mask deeper constraints.</p>
+          <div class="post-meta">April 24, 2025 · 7 min read</div>
+        </div>
+        
+        <div class="post-item">
+          <a class="post-title" href="#">Quantum Reflections on Ordinary Days</a>
+          <p class="post-excerpt">How the principles of quantum physics mirror the unpredictability of our daily existence.</p>
+          <div class="post-meta">April 12, 2025 · 5 min read</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Bottom section -->
+    <div class="section section-3" id="about">
+      <div class="about-me">
+        <div class="avatar">W</div>
+        <div class="about-text">
+          <h2 class="about-title">About Me</h2>
+          <p>I'm <span class="highlight">Wangui</span>, a writer and thinker exploring the intersections of philosophy, science, and everyday experience. My work examines how complex ideas manifest in our ordinary lives.</p>
+          <p class="quote">The universe is not only stranger than we imagine, it is stranger than we can imagine.</p>
+          <p>Currently based in Nairobi, pursuing questions that have no easy answers. Find me reading in quiet corners or debating ideas over strong coffee.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
 
