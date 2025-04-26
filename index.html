@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>It's Wangui</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Georgia', serif;
+      background: linear-gradient(to bottom right, #2c2c34, #5a4e7c);
+      color: #f8f8f8;
+      overflow-x: hidden;
+    }
+    header {
+      text-align: center;
+      padding: 50px;
+      font-size: 3em;
+      position: relative;
+    }
+    .butterfly {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Butterfly_icon.png/600px-Butterfly_icon.png') no-repeat center/contain;
+      animation: float 8s infinite;
+      opacity: 0.7;
+    }
+    @keyframes float {
+      0% { transform: translateY(0) translateX(0) rotate(0deg); }
+      50% { transform: translateY(-50px) translateX(50px) rotate(180deg); }
+      100% { transform: translateY(0) translateX(0) rotate(360deg); }
+    }
+    .posts {
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 0 20px;
+    }
+    .post-title {
+      margin: 20px 0;
+      font-size: 1.8em;
+      color: #e9b7ff;
+      text-decoration: none;
+      display: block;
+      transition: 0.3s;
+    }
+    .post-title:hover {
+      color: #ffccf9;
+      text-decoration: underline;
+    }
+    .content {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 20px;
+      line-height: 1.8;
+      font-size: 1.1em;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  It's Wangui
+  <div class="butterfly" style="top:10%; left:20%; animation-delay: 0s;"></div>
+  <div class="butterfly" style="top:30%; left:70%; animation-delay: 2s;"></div>
+  <div class="butterfly" style="top:60%; left:40%; animation-delay: 4s;"></div>
+</header>
+
+<div class="posts">
+  <a class="post-title" href="post1.html">The Trial of Freedom</a>
+</div>
+
+</body>
+</html>
