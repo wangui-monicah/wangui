@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ethereal Solitude</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body, html {
+      height: 100%;
+      width: 100%;
+      overflow-x: hidden;
+      font-family: 'Cormorant Garamond', serif;
+      background: #000;
+      color: rgba(255, 255, 255, 0.7);
+      cursor: none;
+    }
+    
+    #universe {
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: radial-gradient(circle at center, #0c0e14 0%, #050507 100%);
+      z-index: -1;
+    }
+    
+    .star {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      animation: twinkle 4s infinite alternate;
+    }
+    
+    @keyframes twinkle {
+      0% { opacity: 0.1; }
+      100% { opacity: 0.7; }
+    }
+    
+    .cursor {
+      position: fixed;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      transition: all 0.1s ease;
+      z-index: 9999;
+    }
+    
+    .cursor::after {
+      content: "";
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    
+    .container {
+      position: relative;
+      padding: 15vh 5vw;
+      min-height: 400vh;
+    }
+    
+    .void-title {
+      font-size: 5rem;
+      font-weight: 300;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.2);
+      letter-spacing: 0.5rem;
+      position: fixed;
+      width: 100%;
+      top: 8vh;
+      left: 0;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeIn 2s ease forwards;
+      z-index: 2;
+    }
+    
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .verse {
+      max-width: 500px;
+      margin: 25vh auto;
+      padding: 2rem;
+      position: relative;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1.5s ease, transform 1.5s ease;
+    }
+    
+    .verse.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .line {
+      font-size: 1.6rem;
+      line-height: 1.7;
+      margin-bottom: 1.2rem;
+      position: relative;
+      transform: translateX(20px);
+      opacity: 0;
+      transition: all 1s ease;
+      transition-delay: calc(var(--i) * 0.2s);
+    }
+    
+    .verse.visible .line {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    
+    .echo {
+      position: fixed;
+      color: rgba(255, 255, 255, 0.03);
+      font-size: 10rem;
+      font-weight: 300;
+      pointer-events: none;
+      user-select: none;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+    
+    .whisper {
+      position: absolute;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.15);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    
+    .fog {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
+      pointer-events: none;
+      z-index: 3;
+      opacity: 0.7;
+    }
+    
+    .ethereal-light {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle at center, rgba(37, 38, 43, 0.7) 0%, transparent 70%);
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    
+    .darkness-trace {
+      position: absolute;
+      background: radial-gradient(circle at center, rgba(5, 7, 12, 0.9) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0;
+      z-index: 1;
+    }
+    
+    #audio-button {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: none;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: rgba(255, 255, 255, 0.4);
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-family: inherit;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+    
+    #audio-button:hover {
+      color: rgba(255, 255, 255, 0.7);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+    
+    .shadow-pulse {
+      position: fixed;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle at center, rgba(40, 40, 50, 0.3) 0%, transparent 70%);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      opacity: 0;
+      animation: pulse 5s infinite alternate;
+    }
+    
+    @keyframes pulse {
+      0% { 
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.1;
+      }
+      100% { 
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 0.3;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="universe"></div>
+  <div class="fog"></div>
+  <div class="cursor"></div>
+  <div class="ethereal-light"></div>
+  
+  <h1 class="void-title">ETHEREAL SOLITUDE</h1>
+  
+  <div class="container">
+    <div class="echo" id="echo-alone">alone</div>
+    <div class="echo" id="echo-walls">walls</div>
+    <div class="echo" id="echo-void">void</div>
+    <div class="echo" id="echo-hollow">hollow</div>
+    <div class="echo" id="echo-darkness">darkness</div>
+    
+    <div class="verse" data-echo="alone">
+      <div class="line" style="--i:1">I am an only child—</div>
+      <div class="line" style="--i:2">a blessing or a curse I do not know.</div>
+      <div class="line" style="--i:3">In childhood's quiet hours,</div>
+      <div class="line" style="--i:4">I learned to breathe in solitude</div>
+      <div class="line" style="--i:5">as trust between neighbors silently dissolved.</div>
+    </div>
+    
+    <div class="verse" data-echo="alone">
+      <div class="line" style="--i:1">When solitude becomes your shadow,</div>
+      <div class="line" style="--i:2">the line between choice and force</div>
+      <div class="line" style="--i:3">fades like twilight's last breath.</div>
+      <div class="line" style="--i:4">Eventually, memory fails—</div>
+      <div class="line" style="--i:5">am I retreating or am I stranded?</div>
+    </div>
+    
+    <div class="verse" data-echo="walls">
+      <div class="line" style="--i:1">This confusion haunts adult corridors.</div>
+      <div class="line" style="--i:2">In rooms of others, I question:</div>
+      <div class="line" style="--i:3">Am I honest? Am I open?</div>
+      <div class="line" style="--i:4">Or am I building walls</div>
+      <div class="line" style="--i:5">my hands cannot see?</div>
+    </div>
+    
+    <div class="verse" data-echo="walls">
+      <div class="line" style="--i:1">They say I'm intimidating,</div>
+      <div class="line" style="--i:2">guarded, hard to reach.</div>
+      <div class="line" style="--i:3">But these walls were not built purposefully—</div>
+      <div class="line" style="--i:4">they grew from years of empty rooms,</div>
+      <div class="line" style="--i:5">a way to carry myself without burden.</div>
+    </div>
+    
+    <div class="verse" data-echo="void">
+      <div class="line" style="--i:1">Perhaps we were never meant</div>
+      <div class="line" style="--i:2">to know each other entirely.</div>
+      <div class="line" style="--i:3">Perhaps we are only gifted pieces</div>
+      <div class="line" style="--i:4">of one another's souls.</div>
+      <div class="line" style="--i:5">If so, my instinct to withhold</div>
+      <div class="line" style="--i:6">is not flaw but truth.</div>
+    </div>
+    
+    <div class="verse" data-echo="hollow">
+      <div class="line" style="--i:1">The child raised in quiet</div>
+      <div class="line" style="--i:2">carries a different weight into daylight.</div>
+      <div class="line" style="--i:3">Time spent in isolation</div>
+      <div class="line" style="--i:4">becomes codependency with the self,</div>
+      <div class="line" style="--i:5">and when that child meets the world,</div>
+      <div class="line" style="--i:6">they struggle to simply be.</div>
+    </div>
+    
+    <div class="verse" data-echo="hollow">
+      <div class="line" style="--i:1">If we cannot truly understand others,</div>
+      <div class="line" style="--i:2">can we ever fully understand ourselves?</div>
+    </div>
+    
+    <div class="verse" data-echo="void">
+      <div class="line" style="--i:1">They say to go far, you need people.</div>
+      <div class="line" style="--i:2">And this is my fear—</div>
+      <div class="line" style="--i:3">I am not good with people.</div>
+      <div class="line" style="--i:4">But oh, how deeply I long to be.</div>
+      <div class="line" style="--i:5">My friendships are fragile ice</div>
+      <div class="line" style="--i:6">cracking under even gentle weight.</div>
+    </div>
+    
+    <div class="verse" data-echo="darkness">
+      <div class="line" style="--i:1">I have learned to stand before mirrors</div>
+      <div class="line" style="--i:2">and ask my reflection:</div>
+      <div class="line" style="--i:3">Why do I act this way?</div>
+      <div class="line" style="--i:4">How can I be better?</div>
+      <div class="line" style="--i:5">What must I unlearn,</div>
+      <div class="line" style="--i:6">and what must I rebuild?</div>
+    </div>
+    
+    <div class="verse" data-echo="darkness">
+      <div class="line" style="--i:1">These questions orbit like planets</div>
+      <div class="line" style="--i:2">circling their dying sun—</div>
+      <div class="line" style="--i:3">blaming the self, blaming the silence,</div>
+      <div class="line" style="--i:4">blaming the mirror—</div>
+      <div class="line" style="--i:5">the quiet curse of the only child.</div>
+    </div>
+    
+    <div class="verse" data-echo="darkness">
+      <div class="line" style="--i:1">Yet we are told to remain hopeful.</div>
+      <div class="line" style="--i:2">And maybe—just maybe—</div>
+      <div class="line" style="--i:3">there is purpose within this void.</div>
+      <div class="line" style="--i:4">Perhaps the struggle itself</div>
+      <div class="line" style="--i:5">is not accident but design—</div>
+      <div class="line" style="--i:6">a whisper of greater purpose.</div>
+    </div>
+    
+    <div class="verse" data-echo="alone">
+      <div class="line" style="--i:1">Maybe this is my life's quiet calling:</div>
+      <div class="line" style="--i:2">To study people.</div>
+      <div class="line" style="--i:3">To learn the science of souls.</div>
+      <div class="line" style="--i:4">To love others not despite the difficulty,</div>
+      <div class="line" style="--i:5">but because of it.</div>
+    </div>
+    
+    <div class="verse" data-echo="alone">
+      <div class="line" style="--i:1">Maybe loneliness is not absence</div>
+      <div class="line" style="--i:2">but the space I was given</div>
+      <div class="line" style="--i:3">to cultivate the kind of love</div>
+      <div class="line" style="--i:4">that does not come easily—</div>
+      <div class="line" style="--i:5">the kind that must be learned,</div>
+      <div class="line" style="--i:6">tended to, and offered like a gift.</div>
+    </div>
+    
+    <div class="verse" data-echo="alone">
+      <div class="line" style="--i:1">Maybe this was never a curse at all.</div>
+      <div class="line" style="--i:2">Maybe this was the path</div>
+      <div class="line" style="--i:3">I was meant to walk all along—</div>
+      <div class="line" style="--i:4">through darkness,</div>
+      <div class="line" style="--i:5">toward light,</div>
+      <div class="line" style="--i:6">alone but not lost.</div>
+    </div>
+  </div>
+  
+  <button id="audio-button">ambient sound ○</button>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Create stars in the universe
+      createStars(200);
+      
+      // Create shadow pulses
+      createShadowPulses(5);
+      
+      // Initialize cursor
+      const cursor = document.querySelector('.cursor');
+      const etherealLight = document.querySelector('.ethereal-light');
+      
+      // Handle mouse movement
+      document.addEventListener('mousemove', function(e) {
+        // Update cursor position
+        cursor.style.left = `${e.clientX}px`;
+        cursor.style.top = `${e.clientY}px`;
+        
+        // Update ethereal light
+        etherealLight.style.left = `${e.clientX}px`;
+        etherealLight.style.top = `${e.clientY}px`;
+        etherealLight.style.opacity = '1';
+        
+        // Create darkness trace
+        createDarknessTrace(e);
+        
+        // Create whisper
+        if (Math.random() < 0.03) {
+          createWhisper(e);
+        }
+        
+        // Update echoes
+        updateEchoes(e);
+      });
+      
+      // Handle verse visibility on scroll
+      const verses = document.querySelectorAll('.verse');
+      checkVerseVisibility();
+      window.addEventListener('scroll', checkVerseVisibility);
+      
+      // Audio button functionality
+      const audioButton = document.getElementById('audio-button');
+      let audioPlaying = false;
+      let audioElement;
+      
+      audioButton.addEventListener('click', function() {
+        if (!audioPlaying) {
+          audioElement = new Audio('https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js');
+          audioElement.loop = true;
+          audioElement.volume = 0.2;
+          audioElement.play();
+          audioPlaying = true;
+          audioButton.innerHTML = 'ambient sound ●';
+        } else {
+          audioElement.pause();
+          audioPlaying = false;
+          audioButton.innerHTML = 'ambient sound ○';
+        }
+      });
+      
+      // Create stars in the universe
+      function createStars(count) {
+        const universe = document.getElementById('universe');
+        
+        for (let i = 0; i < count; i++) {
+          const star = document.createElement('div');
+          star.className = 'star';
+          
+          // Random position
+          const x = Math.random() * 100;
+          const y = Math.random() * 100;
+          
+          // Random size
+          const size = Math.random() * 2;
+          
+          star.style.left = `${x}%`;
+          star.style.top = `${y}%`;
+          star.style.width = `${size}px`;
+          star.style.height = `${size}px`;
+          
+          // Random animation delay
+          const delay = Math.random() * 4;
+          star.style.animationDelay = `${delay}s`;
+          
+          universe.appendChild(star);
+        }
+      }
+      
+      // Create shadow pulses
+      function createShadowPulses(count) {
+        const container = document.querySelector('.container');
+        
+        for (let i = 0; i < count; i++) {
+          const pulse = document.createElement('div');
+          pulse.className = 'shadow-pulse';
+          
+          // Random position
+          const x = Math.random() * 100;
+          const y = Math.random() * 100;
+          
+          pulse.style.left = `${x}%`;
+          pulse.style.top = `${y}%`;
+          
+          // Random animation delay
+          const delay = Math.random() * 5;
+          pulse.style.animationDelay = `${delay}s`;
+          
+          container.appendChild(pulse);
+        }
+      }
+      
+      // Create darkness trace
+      function createDarknessTrace(e) {
+        const trace = document.createElement('div');
+        trace.className = 'darkness-trace';
+        
+        trace.style.left = `${e.clientX}px`;
+        trace.style.top = `${e.clientY}px`;
+        trace.style.width = '50px';
+        trace.style.height = '50px';
+        
+        document.body.appendChild(trace);
+        
+        // Animate fade in and out
+        setTimeout(() => {
+          trace.style.width = '150px';
+          trace.style.height = '150px';
+          trace.style.opacity = '0.2';
+          
+          setTimeout(() => {
+            trace.style.opacity = '0';
+            
+            // Remove after animation
+            setTimeout(() => {
+              trace.remove();
+            }, 1000);
+          }, 300);
+        }, 10);
+      }
+      
+      // Create whisper
+      function createWhisper(e) {
+        const whispers = [
+          'alone', 'empty', 'silent', 'hollow', 'distant',
+          'shadows', 'forgotten', 'echoes', 'cold', 'drifting',
+          'invisible', 'lost', 'unreachable', 'fading', 'void'
+        ];
+        
+        const whisper = document.createElement('div');
+        whisper.className = 'whisper';
+        whisper.textContent = whispers[Math.floor(Math.random() * whispers.length)];
+        
+        // Random position near cursor
+        const offsetX = (Math.random() - 0.5) * 200;
+        const offsetY = (Math.random() - 0.5) * 200;
+        
+        whisper.style.left = `${e.clientX + offsetX}px`;
+        whisper.style.top = `${e.clientY + offsetY}px`;
+        
+        document.body.appendChild(whisper);
+        
+        // Fade in
+        setTimeout(() => {
+          whisper.style.opacity = '1';
+          
+          // Random movement
+          const moveX = (Math.random() - 0.5) * 50;
+          const moveY = (Math.random() - 0.5) * 50;
+          
+          whisper.style.transform = `translate(${moveX}px, ${moveY}px)`;
+          
+          // Fade out and remove
+          setTimeout(() => {
+            whisper.style.opacity = '0';
+            
+            setTimeout(() => {
+              whisper.remove();
+            }, 1000);
+          }, 2000);
+        }, 10);
+      }
+      
+      // Update echoes based on scroll position
+      function updateEchoes(e) {
+        const scrollY = window.scrollY;
+        const windowHeight = window.innerHeight;
+        const verses = document.querySelectorAll('.verse.visible');
+        
+        if (verses.length > 0) {
+          const lastVisibleVerse = verses[verses.length - 1];
+          const echoType = lastVisibleVerse.getAttribute('data-echo');
+          
+          const echoes = document.querySelectorAll('.echo');
+          echoes.forEach(echo => {
+            echo.style.opacity = '0';
+            
+            if (echo.id === `echo-${echoType}`) {
+              echo.style.opacity = '0.03';
+              echo.style.left = `${e.clientX - 300}px`;
+              echo.style.top = `${e.clientY - 200}px`;
+            }
+          });
+        }
+      }
+      
+      // Check verse visibility on scroll
+      function checkVerseVisibility() {
+        const scrollY = window.scrollY;
+        const windowHeight = window.innerHeight;
+        
+        verses.forEach(verse => {
+          const verseTop = verse.getBoundingClientRect().top + scrollY;
+          
+          if (scrollY + windowHeight * 0.8 > verseTop) {
+            verse.classList.add('visible');
+          } else {
+            verse.classList.remove('visible');
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
