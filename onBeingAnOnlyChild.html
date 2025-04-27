@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Quiet Calling</title>
+  <!-- Import fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Core styling */
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      font-family: 'Cormorant', serif;
+      background: #000000;
+      color: rgba(255, 255, 255, 0.8);
+      cursor: default;
+    }
+    
+    /* Main container with vertical gradient - deep blues to blacks */
+    .container {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f1e2d, #1a2634, #101820);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Distance elements - creating depth */
+    .distance {
+      position: fixed;
+      height: 1px;
+      width: 1px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 0 2px rgba(255, 255, 255, 0.15);
+      z-index: 0;
+      opacity: 0.7;
+    }
+    
+    /* Header */
+    .back-link {
+      font-family: 'Montserrat', sans-serif;
+      color: rgba(255, 255, 255, 0.5);
+      text-decoration: none;
+      letter-spacing: 4px;
+      font-size: 0.8rem;
+      position: fixed;
+      top: 40px;
+      left: 40px;
+      z-index: 100;
+      transition: all 0.5s;
+      padding: 8px 15px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+    }
+    
+    .back-link:hover {
+      color: #ffffff;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+    }
+    
+    .title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 200;
+      font-size: 2rem;
+      color: rgba(255, 255, 255, 0.9);
+      text-align: center;
+      margin: 12vh 0 8vh;
+      letter-spacing: 8px;
+      position: relative;
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    }
+    
+    .title::after {
+      content: '';
+      position: absolute;
+      width: 1px;
+      height: 30px;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), transparent);
+      bottom: -40px;
+      left: 50%;
+    }
+    
+    /* Content */
+    .content {
+      max-width: 650px;
+      margin: 0 auto;
+      padding: 0 30px 10vh;
+      position: relative;
+      z-index: 10;
+    }
+    
+    /* Stanza sections */
+    .stanza {
+      margin: 7vh 0;
+      position: relative;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    
+    .stanza.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Text styles */
+    p {
+      font-weight: 300;
+      font-size: 1.15rem;
+      line-height: 1.8;
+      margin: 0 0 1.5rem 0;
+      transition: all 0.5s ease;
+    }
+    
+    .text-emphasis {
+      font-weight: 400;
+      font-size: 1.3rem;
+      color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .text-italic {
+      font-style: italic;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    
+    .text-divine {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 200;
+      font-size: 1.4rem;
+      color: rgba(255, 255, 255, 0.95);
+      margin: 2rem 0;
+      text-align: center;
+      letter-spacing: 1px;
+    }
+    
+    /* Highlight effects */
+    .highlight {
+      position: relative;
+      font-style: italic;
+    }
+    
+    .highlight::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    }
+    
+    /* Interaction elements */
+    .interaction-zone {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+    
+    /* Isolation visualization */
+    .isolation-circle {
+      position: fixed;
+      width: 150px;
+      height: 150px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      transition: width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
+      z-index: 5;
+    }
+    
+    .isolation-trace {
+      position: absolute;
+      background: radial-gradient(circle at center, rgba(255, 255, 255, 0.02) 0%, transparent 70%);
+      border-radius: 50%;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 4;
+    }
+    
+    /* Echo text */
+    .echo-text {
+      position: fixed;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 200;
+      color: rgba(255, 255, 255, 0.03);
+      pointer-events: none;
+      z-index: 2;
+      font-size: 7rem;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+    
+    /* Connection lines */
+    .connection-line {
+      position: fixed;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+      transform-origin: left center;
+      pointer-events: none;
+      opacity: 0;
+      z-index: 3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Echo text that appears based on scroll position -->
+    <div class="echo-text" id="echo1">alone</div>
+    <div class="echo-text" id="echo2">walls</div>
+    <div class="echo-text" id="echo3">isolation</div>
+    <div class="echo-text" id="echo4">longing</div>
+    <div class="echo-text" id="echo5">purpose</div>
+    
+    <!-- Interaction visualization elements -->
+    <div class="interaction-zone">
+      <div class="isolation-circle"></div>
+    </div>
+    
+    <!-- Back link -->
+    <a href="index.html" class="back-link">← RETURN</a>
+    
+    <!-- Title -->
+    <h1 class="title">THE QUIET CALLING</h1>
+    
+    <!-- Content -->
+    <div class="content">
+      <div class="stanza" data-echo="alone">
+        <p>I am an only child, and I don't know whether this is a blessing or a curse. Growing up, I spent long stretches of time alone — especially in an age when trust between neighbors had quietly thinned.</p>
+      </div>
+      
+      <div class="stanza" data-echo="alone">
+        <p>When you spend so much time in solitude, the line between <span class="highlight">choosing</span> to be alone and <span class="highlight">being forced</span> into it begins to disappear. After a while, you forget whether you're retreating or simply stranded.</p>
+      </div>
+      
+      <div class="stanza" data-echo="walls">
+        <p>This confusion bleeds into adulthood. In social situations, I find myself wondering: Am I being honest? Am I being open? Or am I building walls without even realizing it?</p>
+      </div>
+      
+      <div class="stanza" data-echo="walls">
+        <p>I've been called intimidating. Guarded. Hard to reach. But to me, these walls are not a fortress I built on purpose. They are the natural result of solitude, a way of carrying myself without burdening others.</p>
+      </div>
+      
+      <div class="stanza" data-echo="walls">
+        <p class="text-emphasis">Perhaps we are not meant to know each other entirely. Perhaps we are only gifted pieces of one another. If that's true, then maybe my instinct to withhold is not a flaw, but a quiet acknowledgment of the human condition.</p>
+      </div>
+      
+      <div class="stanza" data-echo="isolation">
+        <p>Still, the child who grew up alone carries a different burden into adulthood. Time spent in isolation becomes a kind of codependency with the self. And when that child enters the world of others, they struggle — To form friendships. To understand unspoken rules. To occupy space with ease. To simply be.</p>
+      </div>
+      
+      <div class="stanza" data-echo="isolation">
+        <p class="text-emphasis">If we cannot truly understand others, can we ever fully understand ourselves?</p>
+      </div>
+      
+      <div class="stanza" data-echo="isolation">
+        <p>It is said: to go far, you need people. And this is my fear — I am not good with people. But oh, how deeply I long to be.</p>
+        <p>I feel my friendships are fragile, like a sheet of ice that cracks under even the gentlest weight.</p>
+      </div>
+      
+      <div class="stanza" data-echo="longing">
+        <p>I have learned to stand before my own reflection. To ask: Why do I act this way? How can I be better? What must I unlearn, and what must I rebuild?</p>
+      </div>
+      
+      <div class="stanza" data-echo="longing">
+        <p>These questions circle through me, blaming the self, blaming the silence, blaming the mirror — the quiet curse of the only child.</p>
+      </div>
+      
+      <div class="stanza" data-echo="purpose">
+        <p>Yet we are told to remain hopeful. And maybe — just maybe — there is something good buried within all this. Maybe the struggle itself is not an accident, but a whisper of purpose.</p>
+      </div>
+      
+      <div class="stanza" data-echo="purpose">
+        <p>Maybe this is my life's quiet calling: To study people. To learn the science of souls. To love others not <span class="highlight">despite</span> the difficulty, but because of it.</p>
+      </div>
+      
+      <div class="stanza" data-echo="purpose">
+        <p class="text-divine">As Jesus said, the second greatest commandment is this: "Love others as you love thyself."</p>
+      </div>
+      
+      <div class="stanza" data-echo="purpose">
+        <p>Maybe loneliness is not the absence of something, but the space I was given to cultivate the kind of love that does not come easily — the kind that must be learned, tended to, and offered like a gift.</p>
+      </div>
+      
+      <div class="stanza" data-echo="purpose">
+        <p class="text-emphasis">Maybe this was never a curse at all. Maybe this was the path I was meant to walk all along.</p>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Create distance elements
+      createDistanceElements(100);
+      
+      // Create connection lines
+      createConnectionLines(20);
+      
+      // Initialize isolation circle
+      const isolationCircle = document.querySelector('.isolation-circle');
+      
+      // Initialize echo texts
+      const echoTexts = document.querySelectorAll('.echo-text');
+      
+      // Handle mouse movement
+      document.addEventListener('mousemove', function(e) {
+        // Update isolation circle position
+        updateIsolationCircle(e);
+        
+        // Create isolation trace
+        createIsolationTrace(e);
+      });
+      
+      // Handle scroll for stanza visibility
+      const stanzas = document.querySelectorAll('.stanza');
+      checkStanzaVisibility();
+      window.addEventListener('scroll', checkStanzaVisibility);
+      
+      // Create distance elements
+      function createDistanceElements(count) {
+        const container = document.querySelector('.container');
+        
+        for (let i = 0; i < count; i++) {
+          const distance = document.createElement('div');
+          distance.className = 'distance';
+          
+          // Random position
+          const x = Math.random() * 100;
+          const y = Math.random() * 100;
+          
+          // Random size (very small)
+          const size = Math.random() * 2 + 0.5;
+          
+          distance.style.left = `${x}%`;
+          distance.style.top = `${y}%`;
+          distance.style.width = `${size}px`;
+          distance.style.height = `${size}px`;
+          
+          // Random animation
+          const duration = Math.random() * 5 + 3;
+          distance.style.animation = `twinkle ${duration}s infinite alternate`;
+          
+          container.appendChild(distance);
+        }
+      }
+      
+      // Create connection lines
+      function createConnectionLines(count) {
+        const container = document.querySelector('.container');
+        
+        for (let i = 0; i < count; i++) {
+          const line = document.createElement('div');
+          line.className = 'connection-line';
+          
+          container.appendChild(line);
+        }
+      }
+      
+      // Update isolation circle
+      function updateIsolationCircle(e) {
+        isolationCircle.style.left = `${e.clientX}px`;
+        isolationCircle.style.top = `${e.clientY}px`;
+        
+        // Adjust circle size based on proximity to text
+        let minDistance = Infinity;
+        let nearestStanza = null;
+        
+        stanzas.forEach(stanza => {
+          const rect = stanza.getBoundingClientRect();
+          const stanzaCenterX = rect.left + rect.width / 2;
+          const stanzaCenterY = rect.top + rect.height / 2;
+          
+          const distance = Math.sqrt(
+            Math.pow(e.clientX - stanzaCenterX, 2) + 
+            Math.pow(e.clientY - stanzaCenterY, 2)
+          );
+          
+          if (distance < minDistance) {
+            minDistance = distance;
+            nearestStanza = stanza;
+          }
+        });
+        
+        // Adjust size based on proximity
+        const baseSize = 150;
+        const maxSize = 300;
+        const proximity = Math.max(0, 1 - minDistance / 500);
+        const size = baseSize + (maxSize - baseSize) * proximity;
+        
+        isolationCircle.style.width = `${size}px`;
+        isolationCircle.style.height = `${size}px`;
+        isolationCircle.style.borderColor = `rgba(255, 255, 255, ${0.05 + 0.1 * proximity})`;
+        
+        // Update echo text based on nearest stanza
+        if (nearestStanza) {
+          const echoType = nearestStanza.getAttribute('data-echo');
+          
+          echoTexts.forEach(echo => {
+            if (echo.id === `echo${echoType}`) {
+              echo.style.opacity = '0.03';
+              echo.style.left = `${e.clientX - 200}px`;
+              echo.style.top = `${e.clientY - 200}px`;
+            } else {
+              echo.style.opacity = '0';
+            }
+          });
+        }
+      }
+      
+      // Create isolation trace
+      function createIsolationTrace(e) {
+        const trace = document.createElement('div');
+        trace.className = 'isolation-trace';
+        
+        trace.style.left = `${e.clientX}px`;
+        trace.style.top = `${e.clientY}px`;
+        trace.style.width = '50px';
+        trace.style.height = '50px';
+        
+        document.querySelector('.interaction-zone').appendChild(trace);
+        
+        // Animate fade out and expand
+        setTimeout(() => {
+          trace.style.width = '200px';
+          trace.style.height = '200px';
+          trace.style.opacity = '0.2';
+          
+          setTimeout(() => {
+            trace.style.opacity = '0';
+            
+            // Remove after animation
+            setTimeout(() => {
+              trace.remove();
+            }, 1000);
+          }, 200);
+        }, 10);
+      }
+      
+      // Check stanza visibility on scroll
+      function checkStanzaVisibility() {
+        stanzas.forEach(stanza => {
+          const rect = stanza.getBoundingClientRect();
+          
+          if (rect.top < window.innerHeight * 0.85 && rect.bottom > 0) {
+            stanza.classList.add('visible');
+            
+            // Update echo text based on visible stanza
+            const echoType = stanza.getAttribute('data-echo');
+            
+            // Update connection lines between visible stanzas
+            updateConnectionLines();
+          }
+        });
+      }
+      
+      // Update connection lines
+      function updateConnectionLines() {
+        const visibleStanzas = document.querySelectorAll('.stanza.visible');
+        const connectionLines = document.querySelectorAll('.connection-line');
+        
+        if (visibleStanzas.length < 2) return;
+        
+        // Only connect adjacent visible stanzas
+        for (let i = 0; i < visibleStanzas.length - 1 && i < connectionLines.length; i++) {
+          const stanza1 = visibleStanzas[i];
+          const stanza2 = visibleStanzas[i + 1];
+          const line = connectionLines[i];
+          
+          const rect1 = stanza1.getBoundingClientRect();
+          const rect2 = stanza2.getBoundingClientRect();
+          
+          const x1 = rect1.left + rect1.width / 2;
+          const y1 = rect1.bottom;
+          const x2 = rect2.left + rect2.width / 2;
+          const y2 = rect2.top;
+          
+          const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+          const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+          
+          line.style.width = `${length}px`;
+          line.style.left = `${x1}px`;
+          line.style.top = `${y1}px`;
+          line.style.transform = `rotate(${angle}deg)`;
+          line.style.opacity = '1';
+        }
+      }
+      
+      // Initial check
+      checkStanzaVisibility();
+    });
+  </script>
+</body>
+</html>
