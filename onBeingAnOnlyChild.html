@@ -503,6 +503,25 @@
       
       // Initial check
       checkStanzaVisibility();
+
+      document.addEventListener('DOMContentLoaded', function() {
+      const stanzas = document.querySelectorAll('.stanza');
+    
+      // function to check stanza visibility
+      function checkStanzaVisibility() {
+        stanzas.forEach(stanza => {
+          const rect = stanza.getBoundingClientRect();
+          if (rect.top < window.innerHeight * 0.85 && rect.bottom > 0) {
+            stanza.classList.add('visible');
+          }
+        });
+      }
+    
+      // Check on load
+      checkStanzaVisibility();
+    
+      // Check whenever user scrolls
+      window.addEventListener('scroll', checkStanzaVisibility);
     });
   </script>
 </body>
